@@ -28,21 +28,21 @@ def get_conn():
     return psycopg2.connect(**DB_CONFIG)
 
 @app.get("/articles/latest")
-def latest_articles(limit: int = 20):
+def latest_articles(limit: int = 20, offset: int = 0):
     conn = get_conn()
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute("""
         SELECT id, source, title, link, tags, digest_summary, published_at
         FROM articles
         ORDER BY published_at DESC
-        LIMIT %s;
-    """, (limit,))
+        LIMIT %s OFFSET %s;
+    """, (limit, offset))
     rows = cur.fetchall()
     conn.close()
     return {"articles": rows}
 
 @app.get("/articles/by_tag/{tag}")
-def articles_by_tag(tag: str, limit: int = 50):
+def articles_by_tag(tag: str, limit: int = 20, offset: int = 0):
     conn = get_conn()
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute("""
@@ -50,8 +50,8 @@ def articles_by_tag(tag: str, limit: int = 50):
         FROM articles
         WHERE %s = ANY(tags)
         ORDER BY published_at DESC
-        LIMIT %s;
-    """, (tag, limit))
+        LIMIT %s OFFSET %s;
+    """, (tag, limit, offset))
     rows = cur.fetchall()
     conn.close()
     return {"tag": tag, "articles": rows}
