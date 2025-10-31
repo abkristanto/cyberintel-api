@@ -5,7 +5,6 @@ It is built using **FastAPI** and performs **keyword-based tagging** on article 
 
 The script is scheduled to **run weekly** using **APScheduler**, automatically fetching and storing the latest cybersecurity news into a PostgreSQL database.
 
----
 
 ## ⚙️ Tech Stack
 
@@ -15,7 +14,6 @@ The script is scheduled to **run weekly** using **APScheduler**, automatically f
 - **CORS Middleware** — Enables frontend access (e.g., Vite app)  
 - **APScheduler** — Automates weekly data fetching from RSS feeds  
 
----
 
 ## 🗄️ Database Connection
 
@@ -40,6 +38,6 @@ Start the FastAPI app locally:
 
 Then open:
 
-http://localhost:8000/docs
+http://localhost:8080/docs
 
 to access the interactive Swagger UI for testing endpoints.
